@@ -1,0 +1,45 @@
+apt --fix-broken install -y
+sudo apt install git-all
+git version
+#Задание 1. Итоговая контрольная работа
+#Использование команды cat в Linux
+pwd
+mkdir task_gb
+cd task_gb/
+cat >> Pets
+ls
+cat >> 'Pack animals'
+ls
+cat Pets 'Pack animals' > 'Human Friends'
+ls
+#Файл Pets и Pack animals объединились содержимым и получился новый файл Human friends
+#Работа с дерикториями
+mkdir 'test direct'
+mv 'Human Friends' 'test direct'/
+cd 'test direct'/
+ls
+#Файл Human friends переместил в созданную директорию test direct
+exit
+clear
+mysql --help
+mysql version
+man mysql
+sudo service mysql status
+ss -tap | grep mmysql
+nano /etc/mysql/
+apt install mysql-server
+apt --fix-broken install
+apt install mysql-server
+#Задание установить MySQL выполнено
+#Задание уставновить dab пакет, затем его удалить
+wget http://swupdate.openvpn.org/as/openvpn-as-2.1.2-Ubuntu16.amd_64.deb
+dpkg -i openvpn-as-2.1.2-Ubuntu16.amd_64.deb
+passwd openvpn
+#установил приложение из dab
+dpkg -r openvpn-as-2.1.2-Ubuntu16.amd_64.deb
+dpkg -r openvpn-as
+#Удалил
+cp ~/.bash_history /home/vasily/Shared-win/
+cd Shared-win/
+exit
+shutdown -h now
