@@ -1,42 +1,59 @@
 CREATE DATABASE human_friends;
 USE human_friends;
 
--- Создание таблиц
-CREATE TABLE human_friends.pets (
-    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(45) NULL,
-    Type VARCHAR(45) NULL,
-    BirthData DATE NULL,
-    Commands VARCHAR(100) NULL
+-- Выделил уникальные типы животных
+CREATE TABLE type_animals (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    name_type VARCHAR(20)
 );
 
-CREATE TABLE human_friends.pack_animals (
-    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(45) NULL,
-    Type VARCHAR(45) NULL,
-    BirthData DATE NULL,
-    Commands VARCHAR(100) NULL
+INSERT INTO type_animals (name_type)
+VALUES 
+    ('Dog'),
+    ('Cat'),
+    ('Hamster'),
+    ('Horse'),
+    ('Camel'),
+    ('Donkey');
+
+-- Выделил уникальные группы животных
+CREATE TABLE group_animals (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    name_group VARCHAR(20)
 );
 
--- Заполнение таблиц данными
-INSERT INTO pets (Name, Type, BirthData, Commands)
+INSERT INTO group_animals (name_group)
 VALUES 
-    ('Fibo', 'Dog', '2020-01-01', 'Sit, Stay, Fetch'),
-    ('Whiskers', 'Cat', '2019-05-15', 'Sit, Pounce'),
-    ('Hammy', 'Hamster', '2021-03-10', 'Roll, Hide'),
-    ('Buddy', 'Dog', '2018-12-10', 'Sit, Paw, Bark'),
-    ('Smudge', 'Cat', '2020-02-20', 'Sit, Pounce, Scratch'),
-    ('Peanut', 'Hamster', '2021-08-01', 'Roll, Spin'),
-    ('Bella', 'Dog', '2019-11-11', 'Sit, Stay, Roll'),
-    ('Oliver', 'Cat', '2020-06-30', 'Moew, Scratch, Jump');
+    ('pats'),
+    ('pack_animals');
 
-INSERT INTO pack_animals (Name, Type, BirthData, Commands)
+-- Выделил уникальные команды животных
+CREATE TABLE commands_animals (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    name_command VARCHAR(40)
+);
+
+INSERT INTO commands_animals (name_command)
 VALUES 
-    ('Thunder', 'Horse', '2015-07-21', 'Trot, Canter, Gallop'),
-    ('Sandy', 'Camel', '2016-11-03', 'Walk, Carry Load'),
-    ('Eeyore', 'Donkey', '2017-09-18', 'Walk, Carry Load, Bray'),
-    ('Storm', 'Horse', '2014-05-05', 'Trot, Canter'),
-    ('Dune', 'Camel', '2018-12-12', 'Walk, Sit'),
-    ('Burro', 'Donkey', '2019-01-23', 'Walk, Bray, Kick'),
-    ('Blaze', 'Horse', '2016-02-29', 'Trot, Jump, Gallop'),
-    ('Sahara', 'Camel', '2015-08-14', 'Walk, Run');
+    ('Sit'), ('Stay'), ('Fetch'),
+    ('Pounce'), ('Roll'), ('Hide'),
+    ('Paw'), ('Bark'), ('Scratch'),
+    ('Spin'), ('Meow'), ('Jump'),
+    ('Trot'), ('Canter'), ('Gallop'),
+    ('Walk'), ('Carry Load'), ('Bray'),
+    ('Kick'), ('Run');
+
+SELECT * FROM commands_animals;
+SELECT * FROM group_animals;
+SELECT * FROM type_animals;   
+-- Создаю общую таблицу с животными
+CREATE TABLE animals (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(40) NOT NULL,
+    type_id INT,
+    birth_date DATE,
+    group_id INT,
+    
+    FOREIGN KEY (type_id) REFERENCES type_animals (id),
+    FOREIGN KEY (group_id) REFERENCES group_animals (id)
+);
