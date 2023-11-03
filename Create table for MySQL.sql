@@ -45,7 +45,8 @@ VALUES
 
 SELECT * FROM commands_animals;
 SELECT * FROM group_animals;
-SELECT * FROM type_animals;   
+SELECT * FROM type_animals;  
+
 -- Создаю общую таблицу с животными
 CREATE TABLE animals (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
@@ -53,7 +54,6 @@ CREATE TABLE animals (
     type_id INT,
     birth_date DATE,
     group_id INT,
-    
     FOREIGN KEY (type_id) REFERENCES type_animals (id),
     FOREIGN KEY (group_id) REFERENCES group_animals (id)
 );
@@ -77,3 +77,39 @@ VALUES
     ('Burro', 6, '2019-01-23', 2), 
     ('Blaze', 4, '2016-02-29', 2), 
     ('Sahara', 5, '2015-08-14', 2);
+
+-- Создал таблицу связи животного и команды
+CREATE TABLE commands ( 
+    animals_id INT,
+    command_id INT,
+    FOREIGN KEY (animals_id) REFERENCES animals (id),
+    FOREIGN KEY (command_id) REFERENCES commands_animals (id)
+);
+
+-- Добавил связи
+INSERT INTO commands 
+VALUES
+    (1, 1), (1, 2), (1, 3), (2, 1), (2, 4), (3, 5),
+    (3, 6), (4, 1), (4, 7), (4, 8), (5, 1), (5, 4),
+    (5, 9), (6, 5), (6, 10), (7, 1), (7, 2), (7, 5),
+    (8, 11), (8, 9), (8, 12), (9, 13), (9, 14), (9, 15),
+    (10, 16), (10, 17), (11, 16), (11, 17), (11, 18), (12, 13),
+    (12, 14), (13, 16), (13, 1), (14, 16), (14, 18), (14, 19),
+    (15, 13), (15, 12), (15, 15), (16, 16), (16, 20);
+
+-- Вывод Лист "Pets"
+SELECT DISTINCT name, name_type, birth_date, name_group, name_command FROM animals
+JOIN type_animals ON type_animals.id = animals.type_id
+JOIN group_animals ON group_animals.id = animals.group_id
+JOIN commands ON commands.animals_id = animals.id
+JOIN commands_animals ON commands_animals.id = commands.command_id
+WHERE group_id = 1;
+
+-- Вывод Лист "Pack Animals"
+SELECT DISTINCT name, name_type, birth_date, name_group, name_command FROM animals
+JOIN type_animals ON type_animals.id = animals.type_id
+JOIN group_animals ON group_animals.id = animals.group_id
+JOIN commands ON commands.animals_id = animals.id
+JOIN commands_animals ON commands_animals.id = commands.command_id
+WHERE group_id = 2;
+
