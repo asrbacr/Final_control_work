@@ -119,3 +119,30 @@ JOIN commands_animals ON commands_animals.id = commands.command_id
 WHERE group_id = 2
 GROUP BY animals.id;
 
+-- Объединие таблиц Лошади и Ослы
+SELECT id, name FROM animals
+WHERE animals.id =(SELECT id FROM type_animals WHERE name_type ='Horse')
+UNION
+SELECT id, name FROM animals
+WHERE animals.id =(SELECT id FROM type_animals WHERE name_type ='Donkey');
+
+-- Животные в возрасте от 1 до 3 лет, точность до месецев
+SELECT name, birth_date FROM animals AS a
+WHERE Timestampdiff(MONTH, a.birth_date, Curdate()) BETWEEN 12 AND 36;
+
+-- Все таблицы в общую
+CREATE OR REPLACE VIEW fancy_all_animals  AS
+SELECT
+  a.name AS 'name',
+  a.birth_date,
+  atp.name_type AS 'type',
+  agr.name_group AS 'group',
+  GROUP_CONCAT(ac.name_command SEPARATOR ', ') AS 'commands'
+FROM group_animals AS agr
+JOIN type_animals AS atp ON agr.id = atp.id
+JOIN animals AS a ON a.id = atp.id
+JOIN commands AS c ON c.animals_id = a.id
+JOIN commands_animals AS ac on c.command_id = ac.id
+GROUP BY a.id;
+
+SELECT * FROM fancy_all_animals;
