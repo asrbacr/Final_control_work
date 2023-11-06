@@ -98,18 +98,24 @@ VALUES
     (15, 13), (15, 12), (15, 15), (16, 16), (16, 20);
 
 -- Вывод Лист "Pets"
-SELECT DISTINCT name, name_type, birth_date, name_group, name_command FROM animals
+SELECT DISTINCT name, name_type, birth_date, name_group, 
+    GROUP_CONCAT(name_command SEPARATOR ', ') AS 'commands'
+FROM animals
 JOIN type_animals ON type_animals.id = animals.type_id
 JOIN group_animals ON group_animals.id = animals.group_id
 JOIN commands ON commands.animals_id = animals.id
 JOIN commands_animals ON commands_animals.id = commands.command_id
-WHERE group_id = 1;
+WHERE group_id = 1
+GROUP BY animals.id;
 
 -- Вывод Лист "Pack Animals"
-SELECT DISTINCT name, name_type, birth_date, name_group, name_command FROM animals
+SELECT DISTINCT name, name_type, birth_date, name_group, 
+    GROUP_CONCAT(name_command SEPARATOR ', ') AS 'commands'
+FROM animals
 JOIN type_animals ON type_animals.id = animals.type_id
 JOIN group_animals ON group_animals.id = animals.group_id
 JOIN commands ON commands.animals_id = animals.id
 JOIN commands_animals ON commands_animals.id = commands.command_id
-WHERE group_id = 2;
+WHERE group_id = 2
+GROUP BY animals.id;
 
